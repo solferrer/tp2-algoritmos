@@ -1,0 +1,898 @@
+#librerias utilizadas
+import os
+import random
+import msvcrt
+import datetime
+
+# Matriz 8x9 de datos tipo string que contiene los datos de los distintos estudiantes.
+estudiantes = [
+    ["Milton", "Miltonbuzey@gmail.com", "112233", "estudiante", "ACTIVO", "08/02/1992", "Hombre", "Jugar al tenis", "leer libros de python"],
+    ["Guillermina", "Guillermina@gmail.com", "223344", "estudiante", "ACTIVO", "15/05/1995","Mujer", "Salir de compras", "Programar el python"],
+    ["Snorlax", "Snorlax@gmail.com", "334455", "estudiante", "ACTIVO", "02/02/1990","Hombre", "vive en rocadragon", "montar dragones"],
+    ["Rhaenyra", "Rhaenyra@gmail.com", "112233", "estudiante", "ACTIVO", "08/02/1980","Mujer", "Estudiante de Sistermas", "Jugar valorant"],
+    ["Viserys", "Viserys@gmail.com", "556677", "estudiante", "INACTIVO", "10/07/1955", "Hombre","Vive en Europa", "Le gusta viajar"],
+    ["Alicent", "Alicent@gmail.com", "667788", "estudiante", "ACTIVO", "15/04/1920","Mujer", "patinador profesional", "mirar anime, jugar al lol"],
+    ["Aegon", "Aegon@gmail.com", "112233", "estudiante", "ACTIVO", "07/02/1998","Hombre", "progradamor y disenador", "fotografia y dibujar"],
+    [" ", " ", " ", " ", " ", " ", " "," ", " "],
+]
+
+# Matriz 4x8 de datos tipo string que contiene los datos de los distintos moderadores
+moderadores = [
+    ["Leonardo", "Leonardo@gmail.com", "112233", "moderador", "ACTIVO", "06/02/2001", "Hombre","Estudiante de leyes", "Mirar serie y peliculas"],
+    ["Michelangelo", "Michelangelo@gmail.com", "223344", "moderador", "ACTIVO", "05/02/2006", "Hombre", "le gusta el chocolate", "leer mangas, jugar lol"],
+    ["Raphael", "Raphael@gmail.com", "334455", "moderador", "ACTIVO", "12/02/2001", "Hombre", "Le gusta la comida", "jugar lol"],
+    ["", "", "", "", "", "", "", ""]
+]
+
+# Matriz de 1x6 de datos tipo int, contiene los datos de las edades para el bonustrack1
+ED = [21, 18, 20, 19, 23, 24]
+
+# Estudiantes
+MAX_ESTUDIANTES = 8
+estudiantes_activos = 0
+NOMBRE_ESTUDIANTE = 0
+MAIL_ESTUDIANTE = 1
+CONTRASENA_ESTUDIANTE = 2
+TIPO_ESTUDIANTE = 3
+ESTADO_ESTUDIANTE = 4
+FECHA_NACIMIENTO_ESTUDIANTE = 5
+GENERO_ESTUDIANTE = 6
+BIOGRAFIA_ESTUDIANTE = 7
+HOBBY_ESTUDIANTE = 8
+
+# Moderadores
+MAX_MODERADORES = 4
+moderadores_activos = 0
+NOMBRE_MODERADOR = 0
+MAIL_MODERADOR = 1
+CONTRASENA_MODERADOR = 2
+TIPO_MODERADOR = 3
+ESTADO_MODERADOR = 4
+FECHA_NACIMIENTO_MODERADOR = 5
+GENERO_MODERADOR = 6
+BIOGRAFIA_MODERADOR = 7
+HOBBY_MODERADOR = 8 
+
+# Funcion para buscar array de datos de usuario mediante ingreso de nombre
+def buscar_usuario(nombre):
+    for estudiante in estudiantes:
+        if estudiante[0] == nombre:
+            return estudiante
+    return "No encontrado"
+
+# Matriz de reportes (inicialmente vacía)
+matriz_reportes = [[" " for _ in range(4)] for _ in range(58)]
+cont_reportes = 0
+ED = [21, 18, 20, 19, 23, 24]
+# Función para validar si el estudiante está activo
+ESTADO = 4
+
+def validar_estado(usuario):
+    return usuario[ESTADO]
+def mail_ingreso_usuario(mail):
+        return '@' in mail and '.' in mail
+
+def validar_contraseña_ingreso_usuario(contraseña):
+    return len(contraseña) >= 6
+
+# Función para validar contraseña del usuario
+def validar_contrasenia(estudiante):
+    return estudiante[2]
+
+#Fucion para validar sexo
+def validar_sexo(sexo):
+    if sexo.lower() != "hombre":
+        if sexo.lower() != "mujer":
+            if sexo.lower() != "prefiero no decirlo":
+                return False
+    return True
+
+# La función llenar_matriz_likes crea y llena la matriz de likes con valores aleatorios (0 o 1).
+def llenar_matriz_likes(estudiantes):
+    matriz_likes = [[0 for _ in range(len(estudiantes))] for _ in range(len(estudiantes))]
+    for i in range(len(estudiantes)):
+        for j in range(len(estudiantes)):
+            if i != j:
+                matriz_likes[i][j] = random.randint(0, 1)
+    return matriz_likes
+
+# La matriz de likes almacena los likes de los estudiantes hacia otros estudiantes.
+def mostrar_matriz_likes():
+    print("Matriz de likes actualizada:")
+    for fila in matriz_likes:
+        print(" ".join(map(str, fila)))
+    print()
+    
+
+def ver_reportess(reportes):
+    print("Matriz de likes actualizada:")
+    for fila in reportes:
+        print(" ".join(map(str, fila)))
+    print()    
+
+def validar_motivo(motivo):
+    return True
+
+def odenaredades():
+    n = len(ED)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if ED[j] > ED[j+1]:
+                ED[j], ED[j+1] = ED[j+1], ED[j]    
+    print("Edades ordenadas:")
+    print(ED)
+    huecos = [0] * (len(ED) - 1)
+    index = 0
+    for i in range(len(ED) - 1):
+        diff = ED[i+1] - ED[i]
+        if diff > 1:
+            for j in range(1, diff):
+                huecos[index] = ED[i] + j
+                index += 1
+    if index > 0:
+        print("Huecos encontrados:")
+        print(huecos[:index])
+    else:
+        print("No se encontraron huecos en las edades.")
+
+#Funcion con el uso del flush para que la contraseña se visualice con *
+def password(prompt="Ingrese su contraseña (solo números): "):
+    print(prompt, end='', flush=True)
+    password = ''
+    while True:
+        char = msvcrt.getch()
+        if char == b'\r' or char == b'\n':  
+            print()
+            return password
+        elif char == b'\x08':  
+            if password:
+                password = password[:-1]
+                print('\b \b', end='', flush=True)
+        elif char.isdigit(): 
+            password += char.decode('utf-8')
+            print('*', end='', flush=True)
+        else:
+            print("\nSolo se deben poner números", end='', flush=True) # Si el carácter no es un dígito, mostrar mensaje de error y restablecer el prompt
+            print(f"\n{prompt}", end='', flush=True)
+
+#Esta funcion se encarga de buscar en el índice de un usuario en estudiantes y moderadores.
+def buscar_indice(usuario):
+    for i in range(len(estudiantes)):
+        if estudiantes[i] == usuario:
+            return i
+    for i in range(len(moderadores)):
+        if moderadores[i] == usuario:
+            return i
+    for i in range(len(estudiantes)):
+        if estudiantes[i][0] == usuario:
+            return i
+    # Si no se encuentra el usuario
+    return "Índice no encontrado"
+
+
+# Función para validar el ingreso por el mail
+def validar_mail_ingreso(mail):
+    for estudiante in estudiantes:
+        if estudiante[MAIL_ESTUDIANTE] == mail:
+            return estudiante
+    for moderador in moderadores:
+        if moderador[MAIL_MODERADOR] == mail:
+            return moderador
+    return None
+
+# Función para gestionar el perfil del estudiante
+def gestionar_perfil(usuario):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Gestionar Perfil----")
+    print("1. Editar mis datos personales")
+    print("2. Eliminar mi perfil")
+    print("3. Volver")
+    opcion = input("Seleccione una opción: ")
+    while opcion != "3":
+        if opcion == "1":
+            editar_datos_personales(usuario)
+        elif opcion == "2":
+            eliminar_perfil(usuario)
+        else:
+            print("Opción inválida, por favor intente de nuevo.")
+        if usuario[ESTADO_ESTUDIANTE] == "INACTIVO":
+                opcion = "3"
+        else:
+            os.system('cls' if os.name == 'nt' else 'clear')
+            print("----Gestionar Perfil----")
+            print("1. Editar mis datos personales")
+            print("2. Eliminar mi perfil")
+            print("3. Volver")
+            opcion = input("Seleccione una opción: ")
+
+# Función para editar datos personales
+def editar_datos_personales(usuario):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    opcion = "1"
+    while opcion != "0":
+        print("----Editar Datos Personales----")
+        print("Editar datos personales: \n")
+        print("1. Fecha de nacimiento")
+        print("2. Biografía")
+        print("3. Hobbies")
+        print("4. Sexo")
+        print("0. Volver al menú principal")
+        opcion = input("Ingrese el número que corresponda con la opción que deseas cambiar: ")
+        if opcion.isdigit() and opcion == "1":
+            nueva_fecha_nacimiento = input("Ingrese su nueva fecha de nacimiento (DD/MM/YYYY): ")
+            while not validar_fecha_nacimiento(nueva_fecha_nacimiento):
+                print("Formato de fecha inválido. Intente nuevamente.")
+                nueva_fecha_nacimiento = input("Ingrese su nueva fecha de nacimiento (DD/MM/YYYY): ")
+            usuario[FECHA_NACIMIENTO_ESTUDIANTE] = nueva_fecha_nacimiento
+        elif opcion.isdigit() and opcion == "2":
+            nueva_biografia = input("Ingrese su nueva biografía: ")
+            while not validar_biografia(nueva_biografia):
+                print("Biografía inválida. Intente nuevamente.")
+                nueva_biografia = input("Ingrese su nueva biografía: ")
+            usuario[BIOGRAFIA_ESTUDIANTE] = nueva_biografia
+        elif opcion.isdigit() and opcion == "3":
+            nuevos_hobbies = input("Ingrese sus nuevos hobbies: ")
+            while not validar_hobbies(nuevos_hobbies):
+                print("Hobbies invalidos. Intente nuevamente.")
+                nuevos_hobbies = input("Ingrese sus nuevos hobbies separados por comas: ")
+        elif opcion.isdigit() and opcion == "4":
+            nuevo_sexo = input("Ingrese su nuevo sexo: ")
+            while not validar_sexo(nuevo_sexo):
+                print("Sexo invalido. Intente nuevamente.")
+                nuevo_sexo = input("Ingrese su nuevo sexo: ")
+            usuario[GENERO_ESTUDIANTE] = nuevo_sexo
+        elif opcion.isdigit() and opcion == "0":  
+                print("Volviendo al menú principal...") 
+                input("Presione Enter para continuar...")
+        else:
+            print("Opciones invalidas. Selecciona una opcion valida.")
+            input("Presione Enter para continuar...") 
+
+                
+# Llama a la función de prueba
+def eliminar_perfil(usuario):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    confirmacion = input("¿Está seguro de que desea eliminar su perfil? (s/n): ")
+    if confirmacion.lower() == "s" or confirmacion.lower() == "si":
+        usuario[ESTADO] = "INACTIVO"
+        print("Perfil eliminado exitosamente.")
+    else:
+        print("Eliminación cancelada.")
+        input("Presione Enter para continuar...")
+
+#Funcion para validar login      
+def validar_hobbies(hobbies):
+    hobby_count = 0
+    hobby_length = 0
+    current_hobby = ""
+    for char in hobbies:
+        if char == ",":
+            if hobby_length > 50:
+                return False
+            hobby_count += 1
+            hobby_length = 0
+            current_hobby = ""
+        else:
+            current_hobby += char
+            hobby_length += 1
+    if hobby_length > 50:
+        return False
+    hobby_count += 1
+    return hobby_count <= 10
+
+#Funcion para validar biografia
+def validar_biografia(biografia):
+    biografia_length = 0
+    for char in biografia.strip():
+        biografia_length += 1
+    return biografia_length >= 25
+
+#Funcion para validar fecha de nacimiento
+def validar_fecha_nacimiento(fecha_nacimiento):
+    try:
+        datetime.datetime.strptime(fecha_nacimiento, '%d/%m/%Y')
+        return True
+    except ValueError:
+        return False
+    
+#Funcion para calcular edad
+def calcular_edad(fecha_nacimiento):
+    try:
+        nacimiento = datetime.datetime.strptime(fecha_nacimiento, '%d/%m/%Y')
+        hoy = datetime.datetime.today()
+        edad = hoy.year - nacimiento.year - ((hoy.month, hoy.day) < (nacimiento.month, nacimiento.day))
+        return edad
+    except ValueError:
+        return None
+    
+#funcion para benear al usuario. 
+def usuario_baneado(reportes):    
+    for estudiante in estudiante:
+        if estudiante[0] == estudiante[reportes[reportes[1]]]:
+            estudiante[reportes[1][4]] = "INACTIVO"
+            print(estudiante[1][4])
+            return "Usuario Desactivado!"
+    return "El usuario ya esta inactivo"
+       
+# Función para gestionar candidatos
+def gestionar_candidatos(usuario):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Gestionar Candidatos----")
+    print("1. Ver candidatos")
+    print("2. Reportar un candidato")
+    print("3. Volver")
+    opcion = input("Seleccione una opción: ")
+    while opcion!= "3":
+        if opcion == "1":
+            ver_candidatos(usuario)
+        elif opcion == "2":
+            reportar_candidato(usuario, cont_reportes)
+        elif opcion == "3":
+            print("Volviendo al menu principal...")
+        else:
+            print("Opción inválida, por favor intente de nuevo.")
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("----Gestionar Candidatos----")
+        print("1. Ver candidatos")
+        print("2. Reportar un candidato")
+        print("3. Volver")
+        opcion = input("Seleccione una opción: ")
+
+# Función para calcular la cantidad de matcheos posibles
+def calcular_matcheos_posibles(estudiantes):
+    n = len(estudiantes)
+    matcheos_posibles = n * (n - 1)
+    return matcheos_posibles
+# Llama a la función y mostrar el resultado
+matcheos_posibles = calcular_matcheos_posibles(estudiantes)
+
+#Funcion para ver candidatos
+def ver_candidatos(usuario):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Ver Candidatos----")
+    while True:
+        me_gusta = None
+#se muestran los candidatos activos. 
+        for estudiante in estudiantes:
+            if estudiante[ESTADO] == "ACTIVO":
+                edad = calcular_edad(estudiante[FECHA_NACIMIENTO_ESTUDIANTE])
+                print(f"Nombre: {estudiante[NOMBRE_ESTUDIANTE]}, Fecha de Nacimiento: {estudiante[FECHA_NACIMIENTO_ESTUDIANTE]}, Edad: {edad}, Biografía: {estudiante[BIOGRAFIA_ESTUDIANTE]}, Hobbies: {estudiante[HOBBY_ESTUDIANTE]}")
+                
+        opcion = input("Desea dar un like a un candidato - volver? ").lower()
+        
+        while opcion != "volver" and opcion != "like":
+            print("Opcion invalida, seleccione like o volver")
+            opcion = input("Deseas dar un 'like' a un candidato o deseas 'volver' a inicio? ").lower()
+        if opcion == "volver":
+            print("Volviendo al menu principal...")
+            return
+             
+#procedimiento para dar like a un estudiante
+        while me_gusta is None:
+            nombre_me_gusta = input("Ingrese el nombre del estudiante con el que le gustaría hacer un matcheo: ")
+            if nombre_me_gusta != usuario[0]:
+                arreglo_like = buscar_usuario(nombre_me_gusta)
+                if arreglo_like and validar_estado(arreglo_like) == "ACTIVO":
+                    for fila in range(len(estudiantes)):
+                        for columna in range(len(estudiantes)):
+                            if estudiantes[fila][0] == usuario[0] and estudiantes[columna][0] == nombre_me_gusta:
+                                if matriz_likes[fila][columna] == 1:
+                                    print("Ya se le dió like a este usuario.")
+                                    me_gusta = ""
+                                else:
+                                    matriz_likes[fila][columna] = 1
+                                    me_gusta = arreglo_like                               
+                else:
+                    print("El usuario al que se le quiere dar like no esta activo o no existe.")
+            else:
+                print("No se puede dar autolike.")    
+        if me_gusta != None and me_gusta!= "": 
+            print(f"Has seleccionado a {me_gusta[NOMBRE_ESTUDIANTE]} para dar like.")
+            input("Presione Enter para continuar...")
+        
+        #preguntar al usuario si desea volver a inicio. 
+        volver = input("Desea volver a inicio? 'si' - 'no' " ).lower()
+        if volver == "si":
+            print("Volviendo al menu principal")    
+            return
+        elif volver == "no":
+            me_gusta == None 
+        else: 
+            print("Opcion no valida, por favor seleccione una opcion valida.")
+
+MAX_REPORTES = 100  # Tamaño máximo del array de reportes
+
+#Funcion que permite reportar a un candidato, inactivándolo y registrando el reporte.
+
+def reportar_candidato(usuario, cont_reportes):
+    id_nombre = input("Ingrese el Id/Nombre del estudiante a reportar: ")
+    validez_usuario = " "
+    if not id_nombre.isdigit():
+        id_nombre = buscar_indice(id_nombre)
+    if id_nombre != "Índice no encontrado":
+        if estudiantes[id_nombre][0] != usuario[0]:
+            if estudiantes[id_nombre][0] != " ":
+                if estudiantes[id_nombre][4] != "INACTIVO":
+                    validez_usuario = "VALIDO"
+                else:
+                    print("El estudiante no esta activo.")
+            else:
+                print("El estudiante no existe.")
+        else:
+            print("No te podes reportar a vos mismo.")
+        if validez_usuario == "VALIDO":
+            motivo = input("Ingrese el motivo del reporte: ")
+            if not validar_motivo(motivo):
+                print("El formato no es correcto.")
+                motivo = input("Ingrese el motivo del reporte: ")
+            else:
+                matriz_reportes[cont_reportes][0] = str(buscar_indice(usuario))
+                matriz_reportes[cont_reportes][1] = str(id_nombre)
+                matriz_reportes[cont_reportes][2] = motivo
+                matriz_reportes[cont_reportes][3] = "0"
+                cont_reportes += 1
+    else:
+        print("El usuario no fue encontrado.")
+    print(f"Reportaste a {estudiantes[id_nombre][0]}")
+    input("Presione Enter para continuar...")
+
+# Función para gestionar matcheos
+def gestionar_matcheos(usuario):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Gestionar Matcheos----")
+    print("1. Ver matcheos")
+    print("2. Eliminar un matcheo")
+    print("3. Volver")
+    opcion = input("Seleccione una opción: ")
+    while opcion != "3":
+        if opcion == "1":
+            ver_matcheos(usuario)
+        elif opcion == "2":
+            eliminar_matcheo(usuario)
+        elif opcion == "3":
+            print("Volviendo al menu principal...")
+        else:
+            print("Opción inválida, por favor intente de nuevo.")
+        print("----Gestionar Matcheos----")
+        print("1. Ver matcheos")
+        print("2. Eliminar un matcheo")
+        print("3. Volver")
+        opcion = input("Seleccione una opción: ")
+
+# Función para ver matcheos
+def ver_matcheos(usuario):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Ver Matcheos----")
+    print("1. Ver Matcheos")
+    print("2. Ver Matcheos posibles")
+    print("3. Volver")
+    opcion = input("Seleccione una opción: ")
+    while opcion != "3":
+        if opcion == "1":
+            indice_usuario = buscar_indice(usuario)
+            for i in range(len(matriz_likes)):
+                if matriz_likes[indice_usuario][i] == 1:
+                    print(f"Te gusta: {estudiantes[i][NOMBRE_ESTUDIANTE]}, Mail: {estudiantes[i][MAIL_ESTUDIANTE]}")
+            input("Presione Enter para continuar...")
+
+        elif opcion == "2":
+            matcheos_posibles = sum(matriz_likes[buscar_indice(usuario)])
+            print(f"Cantidad de matcheos posibles: {matcheos_posibles}")
+            input("Presione Enter para continuar...")
+
+        elif opcion == "3":
+            print("Volviendo...")
+
+        else:
+            print("Opción inválida, por favor intente de nuevo.")
+        print("----Ver Matcheos----")
+        print("1. Ver Matcheos")
+        print("2. Ver Matcheos posibles")
+        print("3. Volver")
+        opcion = input("Seleccione una opción: ")
+
+
+#Funcion para eliminar un matcheo
+def eliminar_matcheo(usuario):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("En construccion, desea volver?")
+    opcion = input("Seleccione una opcion: ")
+    while opcion not in ["si", "no"]:
+        opc = print("Seleccione una opcion 'si'/'no' ").lower() 
+        if opcion == "si":
+            print("Volviendo...")
+        elif opcion == "no": 
+            print("")
+        else:
+            print("Opcion no valida, seleccione si - no")
+
+# Función para ver reportes estadísticos
+def ver_reportes_estadisticos(matriz, nombre_estudiante):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Reportes Estadísticos----")
+    print("1. Ver Reportes Estadísticos")
+    print("2. Volver")
+    opcion = input("Seleccione su opción: ")
+    while opcion != "2":
+        if opcion == "1":
+            indice = buscar_indice(nombre_estudiante)
+            n = len(matriz)
+            total_posibles_candidatos = n - 1 
+            matches = 0
+            likes_dados_no_recibidos = 0
+            likes_recibidos_no_respondidos = 0
+            for i in range(n):
+                if i != indice:
+                    if matriz[indice][i] == 1 and matriz[i][indice] == 1:
+                        matches += 1
+                    elif matriz[indice][i] == 1 and matriz[i][indice] == 0:
+                        likes_dados_no_recibidos += 1
+                    elif matriz[indice][i] == 0 and matriz[i][indice] == 1:
+                        likes_recibidos_no_respondidos += 1
+
+            # Función para calcular el porcentaje de matcheos
+            porcentaje_matches = (matches / total_posibles_candidatos) * 100
+            # Muestra los matcheos
+            print(f"Matcheados sobre el % posible: {porcentaje_matches:.2f}%")
+            print(f"Likes dados y no recibidos: {likes_dados_no_recibidos}")
+            print(f"Likes recibidos y no respondidos: {likes_recibidos_no_respondidos}")
+            input("Presione Enter para continuar...")
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("----Reportes Estadísticos----")
+        print("1. Ver Reportes Estadísticos")
+        print("2. Volver")
+        opcion = input("Seleccione su opción: ")
+
+# Función para buscar el índice de un estudiante
+def buscar_indice(nombre):
+    for i, estudiante in enumerate(estudiantes):
+        if estudiante[NOMBRE_ESTUDIANTE] == nombre:
+            return i
+    return -1
+
+# Función para mostrar el menú principal para estudiantes
+def mostrar_menu_principal_estudiante(usuario):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Bienvenido al menú de ESTUDIANTES----")
+    print("1. Gestionar mi perfil")
+    print("2. Gestionar candidatos")
+    print("3. Matcheos")
+    print("4. Ver matriz de likes")
+    print("5. Reportes estadísticos")
+    print("6. Ver edades ordenadas (bonustrack1)")
+    print("7. Salir")
+    opcion = input("Seleccione una opción: ")
+    while opcion != "7":
+        if opcion == '1':
+            gestionar_perfil(usuario)
+        elif opcion == '2':
+            gestionar_candidatos(usuario)
+        elif opcion == '3':
+            gestionar_matcheos(usuario)
+        elif opcion == '4':
+            mostrar_matriz_likes()
+        elif opcion == '5':
+            ver_reportes_estadisticos(matriz_likes, NOMBRE_ESTUDIANTE)
+        elif opcion == '6':
+            odenaredades()
+        elif opcion == '7':
+            print("Saliendo al login...")
+        else:
+            print("Opción inválida, por favor intente de nuevo.")
+        if usuario[ESTADO_ESTUDIANTE] == "INACTIVO":
+            opcion = "7"
+        else:
+            print("----Bienvenido al menú de ESTUDIANTES----")
+            print("1. Gestionar mi perfil")
+            print("2. Gestionar candidatos")
+            print("3. Matcheos")
+            print("4. Ver matriz de likes")
+            print("5. Reportes estadísticos")
+            print("6. Ver edades ordenadas (bonustrack1)")
+            print("7. Salir")
+            opcion = input("Seleccione una opción: ")
+
+# Función para mostrar el menú principal para moderadores
+def mostrar_menu_principal_moderador(usuario):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Bienvenido al menú de MODERADORES----")
+    print("1. Gestionar usuarios")
+    print("2. Gestionar reportes")
+    print("3. Salir")
+    opcion = input("Seleccione una opción: ")
+    while opcion != "3":
+        if opcion == '1':
+            gestionar_usuarios()
+        elif opcion == '2':
+            gestionar_reportes()
+        elif opcion == '3':
+            print("Volviendo al meu principal...")
+        else:
+            print("Opción inválida, por favor intente de nuevo.")
+        print("----Bienvenido al menú de MODERADORES----")
+        print("1. Gestionar usuarios")
+        print("2. Gestionar reportes")
+        print("3. Salir")
+        opcion = input("Seleccione una opción: ")
+
+# Función para gestionar usuarios
+def gestionar_usuarios():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Gestionar Usuarios----")
+    print("1. Activar/Desactivar usuario")
+    print("2. Volver")
+    opcion = input("Seleccione una opción: ")
+    while opcion != "3":
+        if opcion == "1":
+            activar_desactivar_usuario()
+        elif opcion == "2":
+            print("Volviendo al menu principal...")
+        else:
+            print("Opción inválida, por favor intente de nuevo.")
+        print("----Gestionar Usuarios----")
+        print("1. Ver usuarios")
+        print("2. Activar/Desactivar usuario")
+        print("3. Volver")
+        opcion = input("Seleccione una opción: ")
+
+#Funcion para activar y desactivar usuarios
+def activar_desactivar_usuario():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    mail = input("Ingrese el mail del usuario a activar/desactivar: ")
+    for usuario in estudiantes + moderadores:
+        if usuario[MAIL_MODERADOR] == mail:
+            usuario[ESTADO] = "ACTIVO" if usuario[ESTADO] == "INACTIVO" else "INACTIVO"
+            print("Estado del usuario actualizado exitosamente.")
+            input("Presione Enter para continuar...")
+            return
+    print("Usuario no encontrado.")
+    input("Presione Enter para continuar...")
+
+# Función para gestionar reportes
+def gestionar_reportes():
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Gestionar Reportes----")
+    print("1. Ver reportes")
+    print("2. Volver")
+    opcion = input("Seleccione una opción: ")
+    while opcion != "2":
+        if opcion == "1":
+            respuesta = ver_reportes()
+            print(respuesta)
+        elif opcion == "2":
+            print("Volviendo al menu principal...")
+        else:
+            print("Opción inválida, por favor intente de nuevo.")
+        print("----Gestionar Reportes----")
+        print("1. Ver reportes")
+        print("2. Volver")
+        opcion = input("Seleccione una opción: ")
+
+# Función para validar que un usuario exista
+def validar_usuario(identificador):
+    for usuario in estudiantes:
+        if usuario['id'] == identificador or usuario['nombre'] == identificador:
+            return usuario
+    return None
+
+def conteo_reportes():
+    cantidad_reportes = 0
+    for r in matriz_reportes:
+        if r[3] == "0":
+            cantidad_reportes += 1
+    return cantidad_reportes
+
+def print_reportes(r):
+    print("-"*90)
+    print("Id del usuario reportado".center(30),end="")
+    print("Id del reportante".center(30),end="")
+    print("Motivo del reporte".center(30))
+    print(f'{r[1]}'.center(30),end="")
+    print(f'{r[0]}'.center(30), end="")
+    print(f'{r[2]}'.center(30)[:30],)
+    print("-"*90) 
+
+def ver_reportes():
+    for r in matriz_reportes:
+        if r[3] == "0":
+            n = conteo_reportes()
+            print(f'{n} reportes sin revisar')
+            print_reportes(r)
+            print("Qué desea hacer con este reporte?")
+            print("a.Ignorar reporte")
+            print("b.Bloquear reportado.")
+            print("c.Volver")
+            opc = str(input("Elija una opción:"))
+            while opc != "a" and opc != "b" and opc != "c":
+                opc = str(input("Opción no válida, intente otra vez:"))
+            if opc == "a":
+                r[3] = "2"
+                print("Reporte ignorado!")
+            elif opc == "b":
+                for e in estudiantes:
+                    if e[0] == r[1]:
+                        e[4] == "INACTIVO"
+                print("Usuario desactivado!")
+                r[3] = "1"
+            elif opc == "c":
+                return "Volviendo..."
+    return "No hay mas reportes"
+
+# Funcion para validar el ingreso de datos en el procedimiento del menú login
+def validar_login(mail, contraseña):
+    for estudiante in estudiantes:
+        if estudiante[1] == mail and estudiante[2] == contraseña:
+            if estudiante[4] == "ACTIVO":
+                return estudiante
+            else:
+                return "INACTIVO"
+    for mod in moderadores:
+        if mod[1] == mail and mod[2] == contraseña:
+            if mod[4] == "ACTIVO":
+                return mod
+            else:
+                return "INACTIVO" 
+    return "Datos no validos"
+
+#VALIDAMOS QUE AL MENOS 1 ESTUDIANTE Y 1 MODERADOR ESTEN ACTIVOS. 
+def validar_estudiantes_y_moderadores(estudiantes, moderadores):
+    estudiantes_activos = 0
+    moderadores_activos = 0
+    
+    for estudiante in estudiantes:              
+        if estudiante[NOMBRE_ESTUDIANTE] != " " and estudiante[ESTADO_ESTUDIANTE] == "ACTIVO":
+            estudiantes_activos += 1
+
+    for moderador in moderadores:              
+        if moderador[NOMBRE_MODERADOR] != " " and moderador[ESTADO_MODERADOR] == "ACTIVO":
+            moderadores_activos += 1
+        
+    if moderadores_activos >= 1 and estudiantes_activos >= 4:
+        return True
+    else:
+        return False    
+
+#FUNCION DE INICIO DE SESION. 
+def menu_inicio(estudiantes):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Menú de Inicio----")
+    if not validar_estudiantes_y_moderadores(estudiantes, moderadores):
+        print("Error: Hay estudiantes o moderadores inactivos.")
+        input("Presione Enter para continuar...")
+    else:
+        print("----Bienvenido al sistema----")
+        print("1. Iniciar Sesión")
+        print("2. Registrarse")
+        print("3. Salir")
+        opcion = input("Seleccione una opción: ")
+        while opcion != "3":
+            if opcion == "1":
+                menu_principal()
+            elif opcion == "2":
+                registrarse(estudiantes)
+            elif opcion == "3":
+                print("¡Hasta luego!")
+            print("----Bienvenido al sistema----")
+            print("1. Iniciar Sesión")
+            print("2. Registrarse")
+            print("3. Salir")
+            opcion = input("Seleccione una opción: ")
+
+def registrarse(estudiantes):
+    os.system('cls' if os.name == 'nt' else 'clear')
+    print("----Registro de Usuario----")
+    cont = 0
+    
+    for estudiante in estudiantes:
+        if estudiante[0] != " ":
+            cont = cont + 1
+        else:
+            nuevo_estudiante = estudiante
+
+    if cont >= 8:
+        print("Máximo de usuarios alcanzado.")
+        input("Presione Enter para continuar...")
+        return
+
+    intentos_fallidos = 0
+
+    # Proceso de ingreso de correo electrónico
+    if intentos_fallidos < 3:
+        correo_electronico = input("Ingrese su correo electronico: ")
+        while not mail_ingreso_usuario(correo_electronico) and intentos_fallidos != 3:
+            print("Formato de correo invalido.")
+            correo_electronico = input("Ingrese su correo electronico: ")
+            intentos_fallidos += 1
+
+    # Proceso de ingreso de contraseña
+    if intentos_fallidos < 3:
+        nuevo_estudiante[MAIL_ESTUDIANTE] = correo_electronico
+        contraseña_usuario = password("Ingrese su contraseña: ")
+        while not validar_contraseña_ingreso_usuario(contraseña_usuario) and intentos_fallidos != 3:
+            print("Formato de contraseña invalido.")
+            contraseña_usuario = password("Ingrese su contraseña: ")
+            intentos_fallidos += 1
+
+    # Proceso de ingreso de fecha de nacimiento
+    if intentos_fallidos < 3:
+        nuevo_estudiante[CONTRASENA_ESTUDIANTE] = contraseña_usuario
+        fecha_nacimiento = input("Ingrese su fecha de nacimiento (DD/MM/YYYY): ")
+        while not validar_fecha_nacimiento(fecha_nacimiento) and intentos_fallidos != 3:
+            print("Formato de fecha inválido.")
+            fecha_nacimiento = input("Ingrese su fecha de nacimiento (DD/MM/YYYY): ")
+            intentos_fallidos += 1
+
+    # Proceso de ingreso de género
+    if intentos_fallidos < 3:
+        nuevo_estudiante[FECHA_NACIMIENTO_ESTUDIANTE] = fecha_nacimiento
+        genero_estudiante = input("Ingrese su género (Hombre/Mujer/Prefiero no decirlo): ")
+        while not validar_sexo(genero_estudiante) and intentos_fallidos != 3:
+            print("Formato de género inválido.")
+            genero_estudiante = input("Ingrese su género (Hombre/Mujer/Prefiero no decirlo): ")
+            intentos_fallidos += 1
+
+    # Proceso de ingreso de biografía
+    if intentos_fallidos < 3:
+        nuevo_estudiante[GENERO_ESTUDIANTE] = genero_estudiante
+        biografia_usuario = input("Ingrese su biografía: ")
+        while not validar_biografia(biografia_usuario) and intentos_fallidos != 3:
+            print("Formato de biografía invalido.")
+            biografia_usuario = input("Ingrese su biografía: ")
+            intentos_fallidos += 1
+
+    # Proceso de ingreso de hobbies
+    if intentos_fallidos < 3:
+        nuevo_estudiante[BIOGRAFIA_ESTUDIANTE] = biografia_usuario
+        hobbie_usuario = input("Ingrese sus hobbies: ")
+        while not validar_hobbies(hobbie_usuario) and intentos_fallidos != 3:
+            print("Formato de hobbies invalido.")
+            hobbie_usuario = input("Ingrese sus hobbies: ")
+            intentos_fallidos += 1
+
+    # Completar el registro si no hubo fallos
+    if intentos_fallidos < 3:
+        nuevo_estudiante[HOBBY_ESTUDIANTE] = hobbie_usuario
+        nuevo_estudiante[TIPO_ESTUDIANTE] = "estudiante"
+        nuevo_estudiante[ESTADO_ESTUDIANTE] = "ACTIVO"
+
+        for i in range(len(estudiantes)):
+            if estudiantes[i][0] == " ":
+                estudiantes[i] = nuevo_estudiante
+                i = len(estudiantes)
+
+        print("¡Registro exitoso! Puede iniciar sesión ahora.")
+    else:
+        print("Demasiados intentos fallidos. Registro cancelado.")
+    
+    input("Presione Enter para continuar...")
+
+# Menú de login
+def menu_principal():
+    intentos = 0
+    while intentos != 3:
+        mail = input("Ingrese su mail: ")
+        contraseña = password()
+        if validar_login(mail, contraseña) != "Datos no validos" and validar_login(mail, contraseña) != "INACTIVO":
+            usuario = validar_login(mail, contraseña)
+            if usuario[3] == "estudiante":
+                mostrar_menu_principal_estudiante(usuario)
+                intentos = 3
+            else:
+                mostrar_menu_principal_moderador(usuario)
+                intentos = 3
+        elif validar_login(mail, contraseña) == "INACTIVO":
+            print("Mail o contraseña incorrectos, intentelo de nuevo.")
+            intentos += 1
+            if intentos == 3:
+                print("Demasiados intentos fallidos, saliendo del programa...")
+        else:
+            print("Mail o contraseña incorrectos, intentelo de nuevo.")
+            intentos += 1
+            if intentos == 3:
+                print("Demasiados intentos fallidos, saliendo del programa...")
+
+# Llenar la matriz de likes al inicio del programa
+matriz_likes = llenar_matriz_likes(estudiantes)
+
+# Iniciar el menú de inicio
+menu_inicio(estudiantes)
